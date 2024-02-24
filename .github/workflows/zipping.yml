@@ -11,7 +11,7 @@ jobs:
         shell: bash
       - run: source ./dependencies/bin/activate
         shell: bash
-      - run: python -m pip install -r requirements.txt
+      - run: ls -larth && python -m pip install -r ./requirements.txt
         shell: bash
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
         shell: bash
