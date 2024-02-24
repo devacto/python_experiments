@@ -20,6 +20,8 @@ jobs:
         shell: bash
       - run: rm -rf dist
         shell: bash
+      - run: mkdir -p dist
+        shell: bash
       - run: zip -r -s 5m dist/output.zip *
         shell: bash
       - uses: actions/upload-artifact@v2
