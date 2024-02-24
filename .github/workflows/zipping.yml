@@ -1,5 +1,5 @@
 name: Zip Including Dependencies
-run-name: "${{ github.actor }}: Produce multi-part zip file including dependencies. 🚀"
+
 on: [push]
 jobs:
   Produce-Dependencies:
