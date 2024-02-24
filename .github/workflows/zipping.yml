@@ -31,14 +31,20 @@ jobs:
       - name: Move files to temp dirs
         run: |
           find dist/* -type f -maxdepth 1 \
-            -exec sh -c 'mv "$0" "${0%.*}"' {} \;
+          -exec sh -c 'cp "$0" "./output/${0##*/}"' {} \;
 
-      - name: Upload artifacts
-        id: upload-artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ github.actor }}-${{ github.ref }}
-          path: tmp/
+      - name: Upload Individual Artifacts
+        run: |
+          cd output || exit
+
+          for filename in */ ; do
+              base=${filename%%.*};
+
+              echo "Uploading $base..."
+              actions/upload-artifact@v3 \
+                  --name="$base" \
+                  --path="./$filename"
+          done
 
       - name: Clean up temp dirs
         run: rm -rf tmp/
