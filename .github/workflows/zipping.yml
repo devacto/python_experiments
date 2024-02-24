@@ -28,7 +28,7 @@ jobs:
         id: get_current_date
         run: |
           NOW="$(date "+%Y-%m-%d_%H-%M-%S")"
-          echo "::set-output name=CURRENT_DATE::$NOW"
+          echo "CURRENT_DATE=$NOW" >> $GITHUB_OUTPUT
       - run: echo $TAG_NAME
         env:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
