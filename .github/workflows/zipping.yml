@@ -22,12 +22,13 @@ jobs:
         shell: bash
       - run: mkdir -p dist
         shell: bash
-      - run: zip -r -s 5m dist/output.zip *
+      - run: zip -r -s 5m dist/python-experiments.zip *
         shell: bash
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: archive
-          path: ./dist/*.zip
+          name: python-experiments-archive
+          path: dist/
+          retention-days: 7
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
         shell: bash
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
