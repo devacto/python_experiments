@@ -28,10 +28,14 @@ jobs:
         env:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
 
+      - run: mkdir -p output && ls -larth output
+
       - name: Move files to temp dirs
         run: |
           find dist/* -type f -maxdepth 1 \
           -exec sh -c 'cp "$0" "./output/${0##*/}"' {} \;
+
+      - run: ls -larth output
 
       - name: Upload Individual Artifacts
         run: |
