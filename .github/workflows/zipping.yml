@@ -6,6 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - id: get_converted_repo_name
+        shell: bash
+        run: |
+          CONVERTED_REPO_NAME="${${{ github.repository }}//\//_}"
+          echo "CONVERTED_REPO_NAME=$CONVERTED_REPO_NAME" >> $GITHUB_OUTPUT
       - run: python --version
         shell: bash
       - run: pwd
@@ -22,7 +27,7 @@ jobs:
         shell: bash
       - run: mkdir -p dist
         shell: bash
-      - run: zip -r -s 5m dist/${{ github.repository }}.zip *
+      - run: zip -r -s 5m "dist/${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}.zip" *
         shell: bash
       - name: Get current date
         id: get_current_date
@@ -34,7 +39,7 @@ jobs:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.repository }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
+          name: ${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
           path: dist/
           retention-days: 7
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
