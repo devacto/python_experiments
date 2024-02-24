@@ -9,7 +9,7 @@ jobs:
       - id: get_converted_repo_name
         shell: bash
         run: |
-          CONVERTED_REPO_NAME="${${{ github.repository }}//\//_}"
+          CONVERTED_REPO_NAME="$(echo "${{ github.repository }}" | sed 's/\//_/g')"
           echo "CONVERTED_REPO_NAME=$CONVERTED_REPO_NAME" >> $GITHUB_OUTPUT
       - run: python --version
         shell: bash
