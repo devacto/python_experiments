@@ -7,28 +7,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: get_converted_repo_name
-        shell: bash
         run: |
           CONVERTED_REPO_NAME="$(echo "${{ github.repository }}" | sed 's/\//_/g')"
           echo "CONVERTED_REPO_NAME=$CONVERTED_REPO_NAME" >> $GITHUB_OUTPUT
       - run: python --version
-        shell: bash
       - run: pwd
-        shell: bash
       - run: ls -larth
-        shell: bash
       - run: python -m venv ./dependencies
-        shell: bash
       - run: source ./dependencies/bin/activate
-        shell: bash
       - run: python -m pip install -r requirements.txt
-        shell: bash
       - run: rm -rf dist
-        shell: bash
       - run: mkdir -p dist
-        shell: bash
       - run: zip -q -r -s 5m "dist/${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}.zip" *
-        shell: bash
       - name: Get current date
         id: get_current_date
         run: |
@@ -37,14 +27,32 @@ jobs:
       - run: echo $TAG_NAME
         env:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
-      - uses: actions/upload-artifact@v4
+
+      - name: Move files to temp dirs
+        run: |
+          find dist/* -type f -maxdepth 1 \
+            -exec sh -c 'mv "$0" "${0%.*}"' {} \;
+
+      - name: Upload artifacts
+        id: upload-artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
-          path: dist/
-          retention-days: 7
+          name: ${{ github.actor }}-${{ github.ref }}
+          path: tmp/
+
+      - name: Clean up temp dirs
+        run: rm -rf tmp/
+
+
+
+
+
+
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
+      #     path: dist/
+      #     retention-days: 7
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-        shell: bash
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-        shell: bash
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
-        shell: bash
