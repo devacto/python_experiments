@@ -1,5 +1,10 @@
-## We use venv to 
+## Folder for dependencies
+## Not to be committed to the repository.
 dependencies/
+
+## Folder for the resulting multi-part zip file
+## for distribution and sending.
+dist/
 
 ## These below are auto-generated
 ## by Github.

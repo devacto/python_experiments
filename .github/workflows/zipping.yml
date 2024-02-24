@@ -8,12 +8,24 @@ jobs:
       - uses: actions/checkout@v4
       - run: python --version
         shell: bash
+      - run: pwd
+        shell: bash
+      - run: ls -larth
+        shell: bash
       - run: python -m venv ./dependencies
         shell: bash
       - run: source ./dependencies/bin/activate
         shell: bash
-      - run: ls -larth && python -m pip install -r ./requirements.txt
+      - run: python -m pip install -r requirements.txt
         shell: bash
+      - run: rm -rf dist
+        shell: bash
+      - run: zip -r -s 5m dist/output.zip *
+        shell: bash
+      - uses: actions/upload-artifact@v2
+        with:
+          name: archive
+          path: ./dist/*.zip
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
         shell: bash
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
