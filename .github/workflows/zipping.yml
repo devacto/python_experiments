@@ -24,6 +24,11 @@ jobs:
         shell: bash
       - run: zip -r -s 5m dist/python-experiments.zip *
         shell: bash
+      - name: Set current date
+        run: |
+          NOW="$(date +"%F")"
+          echo ::set-output name=CURRENT_DATE::$NOW
+      - run: echo "Current Date: ${{ steps.Set_current_date.outputs.CURRENT_DATE }}"
       - uses: actions/upload-artifact@v4
         with:
           name: python-experiments-archive
