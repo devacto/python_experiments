@@ -6,6 +6,9 @@ dependencies/
 ## for distribution and sending.
 dist/
 
+## Ignore Mac
+.DS_Store
+
 ## These below are auto-generated
 ## by Github.
 
