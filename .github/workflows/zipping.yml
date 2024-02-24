@@ -27,14 +27,14 @@ jobs:
       - name: Get current date
         id: get_current_date
         run: |
-          NOW="$(date +"%F")"
+          NOW="$(date "+%Y-%m-%d_%H-%M-%S")"
           echo "::set-output name=CURRENT_DATE::$NOW"
       - run: echo $TAG_NAME
         env:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
       - uses: actions/upload-artifact@v4
         with:
-          name: python-experiments-archive-${{ steps.get_current_date.outputs.CURRENT_DATE }}
+          name: python_experiments_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
           path: dist/
           retention-days: 7
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
