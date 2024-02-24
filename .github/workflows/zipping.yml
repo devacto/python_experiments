@@ -1,5 +1,5 @@
 name: Zip Including Dependencies
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: "${{ github.actor }}: Produce multi-part zip file including dependencies. 🚀"
 on: [push]
 jobs:
   Produce-Dependencies:
@@ -10,4 +10,6 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
         shell: bash
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
+        shell: bash
+      - run: python --version
         shell: bash
