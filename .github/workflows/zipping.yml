@@ -27,7 +27,7 @@ jobs:
         shell: bash
       - run: mkdir -p dist
         shell: bash
-      - run: zip -r -s 5m "dist/${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}.zip" *
+      - run: zip -q -r -s 5m "dist/${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}.zip" *
         shell: bash
       - name: Get current date
         id: get_current_date
