@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Usage
-# sh unzip_multipart.sh multipart/zip/path resulting/directory/path
+# sh unzip_multipart.sh multipart/zip/path
 
 # Stop if we encounter failure
 set -euo pipefail
@@ -10,10 +10,15 @@ set -euo pipefail
 set -x
 
 MULTIPART_ZIP_PATH=$1
-RESULTING_PATH=$2
+
+# Get the directory of the multipart zip.
+MULTIPART_ZIP_DIR=$(dirname "$MULTIPART_ZIP_PATH")
 
 # Combine multipart zip into a single zip.
-zip -FF $MULTIPART_ZIP_PATH --out "$RESULTING_PATH.zip"
+MULTIPART_ZIP_FILENAME="${MULTIPART_ZIP_PATH##*/}"
+MULTIPART_ZIP_FILENAME_WITHOUT_EXTENSION=${MULTIPART_ZIP_FILENAME%.*}
+cd $MULTIPART_ZIP_DIR
+zip -FF $MULTIPART_ZIP_FILENAME --out "$MULTIPART_ZIP_FILENAME_WITHOUT_EXTENSION-combined.zip"
 
 # Unzip the resulting single zip.
-unzip $MULTIPART_ZIP_PATH -d "$RESULTING_PATH/"
+unzip "$MULTIPART_ZIP_FILENAME_WITHOUT_EXTENSION-combined.zip" -d "$MULTIPART_ZIP_FILENAME_WITHOUT_EXTENSION-combined"
