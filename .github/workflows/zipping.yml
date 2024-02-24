@@ -39,14 +39,15 @@ jobs:
         env:
           FILES: ${{ steps.find-files.outputs.FILES }}
         run: |
+          set -x
           for file in $(echo "$FILES"); do
             echo "Uploading '$file'"
 
             # Replace '<desired-prefix>' below with whatever prefix you prefer
             dest="${file/$PWD\/</prefix/}"
-            echo "Dest $dest"
+            echo "Dest $(basename $dest)"
 
-            actions/upload-artifact@v4 \
+            actions/upload-artifact@v3 \
               --name=$(basename "$dest") \
               --path="$file"
           done
