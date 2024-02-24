@@ -22,7 +22,7 @@ jobs:
         shell: bash
       - run: mkdir -p dist
         shell: bash
-      - run: zip -r -s 5m dist/python-experiments.zip *
+      - run: zip -r -s 5m dist/${{ github.repository }}.zip *
         shell: bash
       - name: Get current date
         id: get_current_date
@@ -34,7 +34,7 @@ jobs:
           TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
       - uses: actions/upload-artifact@v4
         with:
-          name: python_experiments_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
+          name: ${{ github.repository }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
           path: dist/
           retention-days: 7
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
