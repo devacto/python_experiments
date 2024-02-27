@@ -24,10 +24,6 @@ jobs:
         run: |
           NOW="$(date "+%Y-%m-%d_%H-%M-%S")"
           echo "CURRENT_DATE=$NOW" >> $GITHUB_OUTPUT
-      - run: echo $TAG_NAME
-        env:
-          TAG_NAME: nightly-tag-${{ steps.get_current_date.outputs.CURRENT_DATE }}
-
       - run: mkdir -p output && ls -larth output
 
       - name: Find Files in Source Dir
@@ -55,11 +51,6 @@ jobs:
       - name: Clean up temp dirs
         run: rm -rf tmp/
 
-
-
-
-
-
       # - uses: actions/upload-artifact@v4
       #   with:
       #     name: ${{ steps.get_converted_repo_name.outputs.CONVERTED_REPO_NAME }}_archive_${{ steps.get_current_date.outputs.CURRENT_DATE }}
@@ -68,3 +59,8 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.1'
+
+
