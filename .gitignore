@@ -1,7 +1,3 @@
-## Folder for dependencies
-## Not to be committed to the repository.
-dependencies/
-
 ## Folder for the resulting multi-part zip file
 ## for distribution and sending.
 dist/
